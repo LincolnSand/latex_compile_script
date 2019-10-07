@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% Packages required for syntax highlighting:
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{xparse}
+
+% set the highlighting language to C with blue keywords
+\lstset{language=C,keywordstyle={\bfseries \color{blue}},showstringspaces=true}
+
+\title{The Need For a Better C}
+\author{Luke I. Wilson & Lincoln Sand}
+\date{October 2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract} % we need a short description of what this paper is about
+    Many people in the systems programming community have been talking about making languages which compete with C for the systems language domain. Many of these languages are possibly taking a wrong approach to language design, by providing bloated languages similar to C, but against its present philosophies.
+    
+    Likely, a best solution is a language that is designed strictly around the best parts of C, but to address the worst parts of it as well -- to provide a language which best solves the new problems in the systems programming domain.
+    
+\end{abstract}
+
+\section{Introduction}
+    The invention of a new systems language, to be a valid replacement to C, is of great debate in the last decade. There are several ongoing attempts, namely the Zig and Rust projects. But current C users are unsatisfied with the developments being made because they do not retain any of the joy of using C. We may wonder \textit{what}, exactly, needs to be made of a new language in order to create a language which current C users find satisfactory and a valid reason to rewrite\footnote{A trend with communities of new programming languages is to rewrite existing libraries or programs using the new language. One example is the ``RIIR'' acronym used by Rust programmers, meaning to ``rewrite it in Rust.''}.
+
+    C was a great alternative to hand-rolling Assembly in the late 1980s until the early 2010s, when people began to see its deficiencies. With the rise of multi-core CPUs, high-power GPUs, and lots of RAM, it was often easier to use higher-level languages to write most of the programs you would have had to use C for. But there still remains a lot of specialized work, more specifically in the systems programming domain, where C is required for work, yet lacks much of the modern improvements to contemporary programming languages found in other fields of work.
+    
+    % TODO: what C was used for when it was made, and how it is used today.
+    
+    % TODO: Compare usage of C today to high-level languages (python) and their usage
+    
+    % TODO: new mid-level languages (Go, D, Nim) and their usages, but remaining deficiencies when being used for purposes that C is commonly used for today
+    
+    % TODO: new low-level languages that compete with C (Rust / Zig) and their efficiencies, but also deficiencies, especially in the eyes of current C programmers
+
+\section{An Ordered Summary of C's Design}
+% This is to create an outline of topics which can be discussed later in the paper.
+% Each \item shall be at least a whole, proper sentence. Each \item may be a paragraph and include code samples.
+\subsection*{Design Considered ``Good''}
+    \begin{enumerate}
+        \item Reliable expectations for the generated machine code
+        \item Simplicity, compared to other languages of the time
+        \item Manual memory management for low-level control of the resources a program uses
+        \item No GC or complex things in the background you can't control
+        \item Imperative programming is intuitive.
+        \item C lets you do what you want without getting in the way. It is the programmer's responsibility to write good code instead of the language's 
+        \item Portable programs, with the flexible C specification which enabled OS developers to have flexibility when developing C compilers for their platforms
+        \item A simple, flexible type system
+    \end{enumerate}
+\subsection*{Design Considered ``Poor''}
+    \begin{enumerate}
+        \item Newer C versions are just trying to ``undo'' what bad decisions had been made in the past.
+        \item Name collisions are likely due to not having a namespace or package system, so you often see symbols prefixed and suffixed with multiple underscores. For example, \lstinline{__STDC_VERSION__}
+        \item Syntax is not consistent nor always clear. For example, in modern C, the standard is to declare a struct and then type-define it. A semicolon is also included on the end, even though structs are like functions and are most often declared on the global scope, which do not end with semicolons.
+        \begin{lstlisting}
+            typedef struct foo Foo;
+            struct foo {
+                int a;
+                int b;
+            };
+            
+            // Initializing a struct foo
+            Foo f = { .a=2, .b=3 };
+        \end{lstlisting}
+        It should instead be that when a struct is declared, the name it is given can be referred to directly, without the ``struct'' prefix and semicolon:
+        \begin{lstlisting}
+            struct Foo {
+                int a;
+                int b;
+            }
+            
+            Foo f = Foo { 2, 3 };
+        \end{lstlisting}
+        \item The preprocessor obfuscates the clarity of program code and generates ``behind the scenes'' complexity and subtle bugs.
+        \item C has lots of cases for undefined behavior that remains unclear and varies from one compiler implementation to another.
+    \end{enumerate}
+\subsection{The Language for Systems Programming}
+    % TODO: describe what makes C so great for systems programming, e.g.:
+    % - no gc / manual memory manag.
+    % - simplicity
+    % - reliable expectations for generated instructions
+    C is, by design, like a high-level assembly. Most times it is apparent how the compiler should assemble some instructions, like 
+
+\section{A New Language}
+    Because all of these changes, once applied to a standard-compliant C compiler, would pull the language so far from its recognizable roots, that it is best designed as a totally new language. Although, it is drastically important the language is not far from modern C is today, so that converting programs is trivial and automatable.
+
+\subsection{Beneficial Additions}
+    (TK) Differences:
+    \begin{itemize} %temporary list of all proposed differences/changes
+        \item The language is designed with modern usage first and foremost.
+        \item 
+    \end{itemize}
+\subsection{The Bad}
+    In order to build a new language which does serve a correct, improved purpose, we must be able to identify its cons, and yet see them as being appropriate given the improvements compared to C.
+    \begin{itemize}
+        \item No backwards compatibility with existing C programs and libraries.
+    \end{itemize}
+
+\end{document}
+
